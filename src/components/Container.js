@@ -29,7 +29,7 @@ class Container extends Component {
     change = () => {
         this.setState({
             loading: articlesStore.loading,
-            articles: articlesStore.getAll()
+            articles: articlesStore.getAll(),
         })
     };
 }

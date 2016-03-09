@@ -7,7 +7,7 @@ class CommentStore extends SimpleStore {
     constructor(...args) {
         super(...args)
         this.dispatchToken = AppDispatcher.register((action) => {
-            const { type, data } = action
+            const { type, data, response, error } = action
 
             switch (type) {
                 case ADD_COMMENT:
@@ -18,9 +18,6 @@ class CommentStore extends SimpleStore {
                     break;
 
                 case LOAD_COMMENTS_BY_ARTICLE_ID + _START:
-                    // let article = this.getById(data.id)
-                    // article.loading = true
-                    // article.loaded = false
                     break;
 
                 case LOAD_COMMENTS_BY_ARTICLE_ID + _FAIL:
@@ -28,13 +25,11 @@ class CommentStore extends SimpleStore {
                     break
 
                 case LOAD_COMMENTS_BY_ARTICLE_ID + _SUCCESS:
-                    // this.add(response)
+                    response.forEach(this.add)
                     break;
 
                 default: return
             }
-
-            this.emitChange()
         })
     }
 }

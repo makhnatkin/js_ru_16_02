@@ -12,30 +12,53 @@ class CommentList extends Component {
     };
 
     state = {
-        comment: ''
+        comment: '',
+        loaded: !!this.props.article.getRelation('comments').join('')
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const loaded = !!nextProps.article.commentsLoaded;
+        if (!this.state.loaded && loaded) {
+            this.setState({
+                loaded,
+                loading: false
+            }, this.props.toggleOpen());
+        }
     }
 
     render() {
-        const { isOpen } = this.props
-        const actionText = isOpen ? 'hide comments' : 'show comments'
+        const { isOpen, article } = this.props
+        const { loaded, loading } = this.state;
+        const actionText = !article.comments.length ? 'add comment' : isOpen ? 'hide comments' : 'show comments'
 
         return (
             <div>
+                <div>Comments: {article.comments.length}</div>
                 <a href = "#" onClick = {this.handleClick.bind(this)}>{actionText}</a>
-                {/*this.getBody()*/}
+                { loading ? <h3>Loading comments...</h3> : null }
+                { loaded ? this.getBody() : null }
             </div>
         )
+    }
+
+    getAddCommentBody() {
+        return (
+            <div>
+                <input value = {this.state.comment} onChange = {this.commentChange}/>
+                <a href = "#" onClick = {this.submitComment}>add comment</a>
+            </div>
+        )        
     }
 
     getBody() {
         const { article, isOpen } = this.props
         if (!isOpen) return null
         const commentList = article.getRelation('comments').map(comment => <li key={comment.id}><Comment comment = {comment}/></li>)
+
         return (
             <div>
                 <ul>{isOpen ? commentList : null}</ul>
-                <input value = {this.state.comment} onChange = {this.commentChange}/>
-                <a href = "#" onClick = {this.submitComment}>add comment</a>
+                { this.getAddCommentBody() }
             </div>
         )
     }
@@ -57,8 +80,18 @@ class CommentList extends Component {
     handleClick = (ev) => {
         const { toggleOpen, article } = this.props;
         ev.preventDefault()
-        toggleOpen();
-        loadCommentsByArticleId({id: article.id});
+        if (this.state.loaded) {
+            toggleOpen();
+        } else if (article.comments.length) {
+            this.setState({
+                loading: true
+            }, loadCommentsByArticleId({id: article.id}))
+        } else {
+            this.setState({
+                loaded: true,
+                loading: false
+            }, this.props.toggleOpen());
+        }
     }
 }
 

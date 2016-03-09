@@ -6,10 +6,6 @@ import withHint from './../mixins/withHint'
 const Article = React.createClass({
     mixins: [toggleOpen, withHint],
 
-    componentDidMount() {
-        console.log('---', this.refs.container);
-    },
-
     render() {
         return (
             <div ref="container">
