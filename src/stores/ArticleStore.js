@@ -16,7 +16,7 @@ class ArticleStore extends SimpleStore {
 
                 case ADD_COMMENT:
                     AppDispatcher.waitFor([this.__stores.comments.dispatchToken])
-                    const article = this.getById(data.articleId)
+                    let article = this.getById(data.articleId)
                     article.comments = (article.comments || []).concat(data.id)
                     break
 
@@ -40,6 +40,10 @@ class ArticleStore extends SimpleStore {
                 case LOAD_ARTICLE_BY_ID + _START:
                     this.getById(data.id).loading = true
                     break;
+
+                case LOAD_ARTICLE_BY_ID + _FAIL:
+                    this.error = error
+                    break
 
                 case LOAD_ARTICLE_BY_ID + _SUCCESS:
                     this.add(response)

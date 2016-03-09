@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import Comment from './Comment'
 import toggleOpen from './../HOC/toggleOpen'
-import { addComment } from './../actions/comment'
+import { addComment, loadCommentsByArticleId } from './../actions/comment'
 
 class CommentList extends Component {
     static propTypes = {
@@ -16,13 +16,13 @@ class CommentList extends Component {
     }
 
     render() {
-        const { isOpen, toggleOpen } = this.props
+        const { isOpen } = this.props
         const actionText = isOpen ? 'hide comments' : 'show comments'
 
         return (
             <div>
-                <a href = "#" onClick = {toggleOpen}>{actionText}</a>
-                {this.getBody()}
+                <a href = "#" onClick = {this.handleClick.bind(this)}>{actionText}</a>
+                {/*this.getBody()*/}
             </div>
         )
     }
@@ -54,11 +54,11 @@ class CommentList extends Component {
         })
     }
 
-    toggleOpen = (ev) => {
+    handleClick = (ev) => {
+        const { toggleOpen, article } = this.props;
         ev.preventDefault()
-        this.setState({
-            isOpen: !this.state.isOpen
-        })
+        toggleOpen();
+        loadCommentsByArticleId({id: article.id});
     }
 }
 
