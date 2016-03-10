@@ -8,6 +8,7 @@ class ArticleStore extends SimpleStore {
         super(...args)
         this.dispatchToken = AppDispatcher.register((action) => {
             const { type, data, response, error } = action
+            let article
 
             switch (type) {
                 case DELETE_ARTICLE:
@@ -16,7 +17,7 @@ class ArticleStore extends SimpleStore {
 
                 case ADD_COMMENT:
                     AppDispatcher.waitFor([this.__stores.comments.dispatchToken])
-                    let article = this.getById(data.articleId)
+                    article = this.getById(data.articleId)
                     article.comments = (article.comments || []).concat(data.id)
                     break
 
@@ -49,9 +50,24 @@ class ArticleStore extends SimpleStore {
                     this.add(response)
                     break;
 
+                case LOAD_COMMENTS_BY_ARTICLE_ID + _START:
+                    article = this.getById(data.id)
+                    article.comments.loading = true
+                    article.comments.loaded = false
+                    break;
+
+                case LOAD_COMMENTS_BY_ARTICLE_ID + _FAIL:
+                    article = this.getById(data.id)
+                    article.comments.loading = false
+                    article.comments.loaded = false
+                    article.comments.error = true
+                    break;
+
                 case LOAD_COMMENTS_BY_ARTICLE_ID + _SUCCESS:
                     AppDispatcher.waitFor([this.__stores.comments.dispatchToken])
-                    this.getById(data.id).commentsLoaded = true
+                    article = this.getById(data.id)
+                    article.comments.loading = false
+                    article.comments.loaded = true
                     break;
 
                 default: return

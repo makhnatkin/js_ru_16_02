@@ -13,20 +13,26 @@ class CommentList extends Component {
 
     state = {
         comment: '',
-        loaded: !!this.props.article.getRelation('comments').join('')
+        loaded: !!this.props.article.getRelation('comments').join(''), // вдруг уже загружено
+        loading: false,
+        error: false
     }
 
     componentWillReceiveProps(nextProps) {
-        const loaded = !!nextProps.article.commentsLoaded;
-        if (!this.state.loaded && loaded) {
+        // TODO: добавить обработку state.error
+        const { loaded, loading } = nextProps.article.comments;
+        
+        if (!this.state.loaded && (loaded || loading)) {
             this.setState({
                 loaded,
-                loading: false
-            }, this.props.toggleOpen());
+                loading
+            });
+            if (loaded) this.props.toggleOpen()
         }
     }
 
     render() {
+        // TODO: добавить обработку state.error
         const { isOpen, article } = this.props
         const { loaded, loading } = this.state;
         const actionText = !article.comments.length ? 'add comment' : isOpen ? 'hide comments' : 'show comments'
@@ -83,9 +89,7 @@ class CommentList extends Component {
         if (this.state.loaded) {
             toggleOpen();
         } else if (article.comments.length) {
-            this.setState({
-                loading: true
-            }, loadCommentsByArticleId({id: article.id}))
+            loadCommentsByArticleId({id: article.id})
         } else {
             this.setState({
                 loaded: true,
