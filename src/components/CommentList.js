@@ -35,7 +35,7 @@ class CommentList extends Component {
         // TODO: добавить обработку state.error
         const { isOpen, article } = this.props
         const { loaded, loading } = this.state;
-        const actionText = !article.comments.length ? 'add comment' : isOpen ? 'hide comments' : 'show comments'
+        const actionText = !article.comments.length ? 'No comment yet, add first!' : isOpen ? 'hide comments' : 'show comments'
 
         return (
             <div>
