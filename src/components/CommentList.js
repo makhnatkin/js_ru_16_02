@@ -86,6 +86,7 @@ class CommentList extends Component {
     handleClick = (ev) => {
         const { toggleOpen, article } = this.props;
         ev.preventDefault()
+        //замечание к стилю, а не к Реакту - такие проверки очень тяжело читаются лучше if (...) return toggleOpen() 
         if (this.state.loaded) {
             toggleOpen();
         } else if (article.comments.length) {
