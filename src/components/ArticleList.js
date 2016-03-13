@@ -14,10 +14,12 @@ class ArticleList extends Component {
         }
     }
     render() {
-        const options = [
-            { value: 'one', label: 'One' },
-            { value: 'two', label: 'Two' }
-        ];
+        const options = this.props.articles.map((article) => {
+            return {
+                value: article.id,
+                label: article.title
+            }
+        });
 
         const articles = this.props.articles.map((article) =>
             <li key={article.id}>
@@ -31,10 +33,10 @@ class ArticleList extends Component {
         return (
             <div>
                 <Select
+                    multi={true}
                     name="form-field-name"
-                    value="one"
                     options={options}
-                    onChange={this.logChange.bind(this)}
+                    onChange={this.handleSelect.bind(this)}
                 />
                 <ul>
                     {articles}
@@ -43,8 +45,8 @@ class ArticleList extends Component {
         )
     }
 
-    logChange(val) {
-        console.log("Selected: " + val);
+    handleSelect(val) {
+        console.log(val)
     }
 
     open(open) {
