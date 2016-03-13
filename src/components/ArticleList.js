@@ -10,18 +10,22 @@ class ArticleList extends Component {
         super()
         this.state = {
             selected: [],
-            open: null
+            open: null,
+            selectedArticles: ''
         }
     }
     render() {
-        const options = this.props.articles.map((article) => {
+        const options = this.props.articles.map(article => {
             return {
                 value: article.id,
                 label: article.title
             }
         });
 
-        const articles = this.props.articles.map((article) =>
+        const selectedArticles = this.state.selectedArticles.split(',')
+        const articles = this.props.articles.filter(article => {
+            return selectedArticles.includes(article.id.toString())
+        }).map((article) =>
             <li key={article.id}>
                 <Article article={article}
                          isOpen = {article.id === this.state.open}
@@ -35,6 +39,7 @@ class ArticleList extends Component {
                 <Select
                     multi={true}
                     name="form-field-name"
+                    value={this.state.selectedArticles}
                     options={options}
                     onChange={this.handleSelect.bind(this)}
                 />
@@ -45,8 +50,8 @@ class ArticleList extends Component {
         )
     }
 
-    handleSelect(val) {
-        console.log(val)
+    handleSelect(selectedArticles) {
+        this.setState({ selectedArticles })
     }
 
     open(open) {

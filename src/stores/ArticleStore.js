@@ -56,10 +56,10 @@ class ArticleStore extends SimpleStore {
         })
     }
 
-    getOrLoadAll() {
-        if (!this.loading && !this.loaded) loadAllArticles()
-        return this.getAll()
-    }
+    // getOrLoadAll() {
+    //     if (!this.loading && !this.loaded) loadAllArticles()
+    //     return this.getAll()
+    // }
 }
 
 export default ArticleStore
