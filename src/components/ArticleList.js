@@ -4,28 +4,27 @@ import 'react-select/dist/react-select.css';
 
 import Article from './Article'
 import CommentList from './CommentList'
+import { selecteArticles } from './../actions/articles'
 
 class ArticleList extends Component {
     constructor() {
         super()
         this.state = {
             selected: [],
-            open: null,
-            selectedArticles: ''
+            open: null
         }
     }
     render() {
-        const options = this.props.articles.map(article => {
+        const { titles, articles } = this.props
+        const options = titles.map(article => {
             return {
                 value: article.id,
                 label: article.title
             }
         });
 
-        const selectedArticles = this.state.selectedArticles.split(',')
-        const articles = this.props.articles.filter(article => {
-            return selectedArticles.includes(article.id.toString())
-        }).map((article) =>
+        const selectedArtices = articles ? articles.map(article => article.id).join() : ''
+        const articleList = articles ? articles.map((article) =>
             <li key={article.id}>
                 <Article article={article}
                          isOpen = {article.id === this.state.open}
@@ -33,25 +32,25 @@ class ArticleList extends Component {
                          select = {this.select(article.id).bind(this)}
                          selected = {this.state.selected.includes(article.id)}/>
             </li>
-        )
+        ) : null
         return (
             <div>
                 <Select
                     multi={true}
                     name="form-field-name"
-                    value={this.state.selectedArticles}
+                    value={selectedArtices}
                     options={options}
                     onChange={this.handleSelect.bind(this)}
                 />
                 <ul>
-                    {articles}
+                    {articleList}
                 </ul>
             </div>
         )
     }
 
-    handleSelect(selectedArticles) {
-        this.setState({ selectedArticles })
+    handleSelect(ids) {
+        selecteArticles({ ids })
     }
 
     open(open) {

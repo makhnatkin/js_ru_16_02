@@ -5,7 +5,8 @@ import { loadAllArticles } from './../actions/articles'
 
 class Container extends Component {
     state = {
-        articles: articlesStore.getAll()
+        titles: articlesStore.getAll(),
+        articles: articlesStore.getFiltered()
     }
 
     componentDidMount() {
@@ -18,11 +19,11 @@ class Container extends Component {
     }
 
     render() {
-        const { articles, loading } = this.state
+        const { articles, titles, loading } = this.state
         if (loading) return <h3>Loading...</h3>
         return (
             <div>
-                <ArticleList articles = {articles} />
+                <ArticleList titles={titles} articles={articles} />
             </div>
         )
     }
@@ -30,7 +31,8 @@ class Container extends Component {
     change = () => {
         this.setState({
             loading: articlesStore.loading,
-            articles: articlesStore.getAll()
+            titles: articlesStore.getAll(),
+            articles: articlesStore.getFiltered()
         })
     };
 }

@@ -1,11 +1,13 @@
 import SimpleStore from './SimpleStore'
-import { LOAD_COMMENTS_FOR_ARTICLE, DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARICLES, LOAD_ARTICLE_BY_ID,_START, _FAIL, _SUCCESS } from '../actions/constants'
+import { LOAD_COMMENTS_FOR_ARTICLE, DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARICLES, LOAD_ARTICLE_BY_ID,_START, _FAIL, _SUCCESS, GET_FILTERED_ARTICLES } from '../actions/constants'
 import AppDispatcher from '../dispatcher'
 import { loadAllArticles } from '../actions/articles'
 
 class ArticleStore extends SimpleStore {
     constructor(...args) {
         super(...args)
+
+        this.filtered = ''
         this.dispatchToken = AppDispatcher.register((action) => {
             const { type, data, response, error } = action
 
@@ -45,6 +47,10 @@ class ArticleStore extends SimpleStore {
                     this.add(response)
                     break;
 
+                case GET_FILTERED_ARTICLES:
+                    this.filtered = data.ids.ids
+                    break;
+
                 case LOAD_COMMENTS_FOR_ARTICLE + _SUCCESS:
                     AppDispatcher.waitFor([this.__stores.comments.dispatchToken])
                     break;
@@ -54,6 +60,11 @@ class ArticleStore extends SimpleStore {
 
             this.emitChange()
         })
+    }
+
+    getFiltered = () => {
+        const items = this.filtered.split(',')
+        return this.__items.filter(item => items.includes(item.id.toString()))
     }
 
     // getOrLoadAll() {
