@@ -14,6 +14,7 @@ class ArticleList extends Component {
             selectedArticles: ''
         }
     }
+    //разбейте render на несколько методов
     render() {
         const options = this.props.articles.map(article => {
             return {
