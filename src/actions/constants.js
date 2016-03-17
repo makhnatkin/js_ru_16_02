@@ -9,3 +9,5 @@ export const LOAD_COMMENTS_FOR_ARTICLE = 'LOAD_COMMENTS_FOR_ARTICLE'
 export const _START = '_START'
 export const _SUCCESS = '_SUCCESS'
 export const _FAIL = '_FAIL'
+
+export const LOAD_ALL_COMMENTS = 'LOAD_ALL_COMMENTS'

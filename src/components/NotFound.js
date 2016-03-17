@@ -9,7 +9,7 @@ class NotFound extends Component {
     render() {
         return (
             <div>
-                <h1>Sory, route not found, go here: <Link to="/articles">articles</Link></h1>
+                <h1>Sorry, route not found, go here: <Link to="/articles">articles</Link></h1>
             </div>
         )
     }
