@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import CommentList from './CommentList'
 import CSSTransition from 'react-addons-css-transition-group'
 import { deleteAccount, loadAccountById } from './../actions/accounts'
 require('./../style.css')
