@@ -12,6 +12,7 @@ class AccountList extends Component {
             selected: []
         }
     }
+    
     render() {
         const { selected } = this.state
         const accounts = this.props.accounts
@@ -24,29 +25,37 @@ class AccountList extends Component {
                              />
                 </li>
             )
+
+        const options = this.props.accounts
+            .filter(({productType, productStatus}) => (productStatus === 'ACTIVE' && productType === 'CURRENT_ACC'))
+            .map(({id, productName, productAlias}) => {
+                return {
+                    label: productName || productAlias,
+                    value: id
+                }
+            });
+
         return (
             <div>
-                {this.getFilter()}
+                <div>account 1:</div>
+                <Select
+                    value = {this.state.selected}
+                    options = {options}
+                    onChange = {this.changeFilter}
+                />
+
+                <div>account 2:</div>
+                <Select
+                    value = {this.state.selected}
+                    options = {options}
+                    onChange = {this.changeFilter}
+                />
+
                 <ul>
                     {accounts}
                 </ul>
             </div>
         )
-    }
-
-    getFilter() {
-        const options = this.props.accounts.map(({ title, id }) => {
-            return {
-                label: title,
-                value: id.toString()
-            }
-        })
-        return <Select
-            value = {this.state.selected}
-            options = {options}
-            multi = {true}
-            onChange = {this.changeFilter}
-        />
     }
 
     changeFilter = (selected) => {
