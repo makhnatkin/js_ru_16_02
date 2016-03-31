@@ -1,35 +1,35 @@
 import React, { Component, PropTypes } from 'react'
-import { articlesStore } from '../stores'
-import ArticleList from './ArticleList'
-import { loadAllArticles } from './../actions/articles'
+import { accountsStore } from '../stores'
+import AccountList from './AccountList'
+import { loadAllAccounts } from './../actions/accounts'
 
 class Container extends Component {
     state = {
-        articles: articlesStore.getOrLoadAll()
+        accounts: accountsStore.getOrLoadAll()
     }
 
     componentDidMount() {
-        articlesStore.addChangeListener(this.change)
+        accountsStore.addChangeListener(this.change)
     }
 
     componentWillUnmount() {
-        articlesStore.removeChangeListener(this.change)
+        accountsStore.removeChangeListener(this.change)
     }
 
     render() {
-        const { articles, loading } = this.state
+        const { accounts, loading } = this.state
         if (loading) return <h3>Loading...</h3>
         return (
             <div>
-                <ArticleList articles = {articles} />
+                <AccountList accounts = {accounts} />
             </div>
         )
     }
 
     change = () => {
         this.setState({
-            loading: articlesStore.loading,
-            articles: articlesStore.getAll()
+            loading: accountsStore.loading,
+            accounts: accountsStore.getAll()
         })
     };
 }

@@ -1,14 +1,14 @@
-//import {articles, comments} from '../fixtures'
-import ArticleStore from './ArticleStore'
+//import {accounts, comments} from '../fixtures'
+import AccountStore from './AccountStore'
 import CommentStore from './CommentStore'
 
 let stores = {}
 Object.assign(stores, {
-    articles: new ArticleStore(stores),
+    accounts: new AccountStore(stores),
     comments: new CommentStore(stores)
 })
 
 window.stores = stores
 
-export const articlesStore = stores.articles
+export const accountsStore = stores.accounts
 export const commentStore = stores.comments

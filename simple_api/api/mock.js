@@ -1,4 +1,4 @@
-var articles = [
+var accounts = [
     {
         id: 1,
         title: 'What is Lorem Ipsum?',
@@ -224,5 +224,5 @@ var comments = [
 
 module.exports = {
     comments: comments,
-    articles: articles
+    accounts: accounts
 };

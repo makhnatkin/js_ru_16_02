@@ -1,20 +1,20 @@
-export const articles = [
+export const accounts = [
     {
-        title: 'My first article',
+        title: 'My first account',
         body: 'Lorem Ipsum',
         id: 1,
         comments: [1,2]
     },{
-        title: 'Other Article',
+        title: 'Other Account',
         body: 'Some other text',
         comments: [3],
         id: 2
     },{
-        title: 'Other Article!!!!',
+        title: 'Other Account!!!!',
         body: 'Some other text',
         id: 3
     },{
-        title: 'Other Article????',
+        title: 'Other Account????',
         body: 'Some other text',
         id: 4
     }

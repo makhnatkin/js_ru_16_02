@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import CommentList from './CommentList'
 import toggleOpen from './../mixins/toggleOpen'
 
-const Article = React.createClass({
+const Account = React.createClass({
     mixins: [toggleOpen],
 
     componentDidMount() {
@@ -20,7 +20,7 @@ const Article = React.createClass({
     },
 
     getTitle() {
-        const { title } = this.props.article
+        const { title } = this.props.account
         const selectedStyle = this.props.selected ? {color: 'red'} : null;
         return  (
             <h3 style = {selectedStyle} onClick={this.toggleOpen}>
@@ -31,11 +31,11 @@ const Article = React.createClass({
 
     getBody() {
         if (!this.state.isOpen) return null
-        const {article} = this.props
+        const {account} = this.props
         return (
             <div>
-                <p>{article.body}</p>
-                <CommentList comments = {article.comments || []} />
+                <p>{account.body}</p>
+                <CommentList comments = {account.comments || []} />
             </div>
         )
     },
@@ -46,4 +46,4 @@ const Article = React.createClass({
     }
 })
 
-export default Article
+export default Account

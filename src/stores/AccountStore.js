@@ -1,23 +1,23 @@
 import SimpleStore from './SimpleStore'
-import { LOAD_COMMENTS_FOR_ARTICLE, DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARICLES, LOAD_ARTICLE_BY_ID,_START, _FAIL, _SUCCESS } from '../actions/constants'
+import { LOAD_COMMENTS_FOR_ACCOUNT, DELETE_ACCOUNT, ADD_COMMENT, LOAD_ALL_ARICLES, LOAD_ACCOUNT_BY_ID,_START, _FAIL, _SUCCESS } from '../actions/constants'
 import AppDispatcher from '../dispatcher'
-import { loadAllArticles } from '../actions/articles'
+import { loadAllAccounts } from '../actions/accounts'
 
-class ArticleStore extends SimpleStore {
+class AccountStore extends SimpleStore {
     constructor(...args) {
         super(...args)
         this.dispatchToken = AppDispatcher.register((action) => {
             const { type, data, response, error } = action
 
             switch (type) {
-                case DELETE_ARTICLE:
+                case DELETE_ACCOUNT:
                     this.delete(data.id)
                     break;
 
                 case ADD_COMMENT:
                     AppDispatcher.waitFor([this.__stores.comments.dispatchToken])
-                    const article = this.getById(data.articleId)
-                    article.comments = (article.comments || []).concat(data.id)
+                    const account = this.getById(data.accountId)
+                    account.comments = (account.comments || []).concat(data.id)
                     break
 
                 case LOAD_ALL_ARICLES + _START:
@@ -37,15 +37,15 @@ class ArticleStore extends SimpleStore {
                     response.forEach(this.add)
                     break;
 
-                case LOAD_ARTICLE_BY_ID + _START:
+                case LOAD_ACCOUNT_BY_ID + _START:
                     this.getById(data.id).loading = true
                     break;
 
-                case LOAD_ARTICLE_BY_ID + _SUCCESS:
+                case LOAD_ACCOUNT_BY_ID + _SUCCESS:
                     this.add(response)
                     break;
 
-                case LOAD_COMMENTS_FOR_ARTICLE + _SUCCESS:
+                case LOAD_COMMENTS_FOR_ACCOUNT + _SUCCESS:
                     AppDispatcher.waitFor([this.__stores.comments.dispatchToken])
                     break;
 
@@ -57,9 +57,9 @@ class ArticleStore extends SimpleStore {
     }
 
     getOrLoadAll() {
-        if (!this.loading && !this.loaded) loadAllArticles()
+        if (!this.loading && !this.loaded) loadAllAccounts()
         return this.getAll()
     }
 }
 
-export default ArticleStore
+export default AccountStore

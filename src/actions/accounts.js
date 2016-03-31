@@ -5,7 +5,7 @@ import { asyncAC } from './api/utils'
 
 export function deleteAccount(id) {
     AppDispatcher.dispatch({
-        type: DELETE_ACCOUNT,
+        type: DELETE_Account,
         data: { id }
     })
 }

@@ -2,43 +2,43 @@ var router = require('express').Router();
 var mocks = require('./mock');
 var assign = require('object-assign');
 
-router.get('/article', function (req, res, next) {
-    var articles = withComments(mocks.articles).map(function (article) {
-            return assign({}, article, {
+router.get('/account', function (req, res, next) {
+    var accounts = withComments(mocks.accounts).map(function (account) {
+            return assign({}, account, {
                 text: undefined
             })
         }),
-        limit = Number(req.query.limit) || articles.length,
+        limit = Number(req.query.limit) || accounts.length,
         offset = Number(req.query.offset) || 0;
 
-    res.json(articles.slice(offset, limit + offset))
+    res.json(accounts.slice(offset, limit + offset))
 });
 
-router.get('/article/:id', function (req, res, next) {
-    var article = withComments(mocks.articles).filter(function (article) {
-        return article.id == req.params.id
+router.get('/account/:id', function (req, res, next) {
+    var account = withComments(mocks.accounts).filter(function (account) {
+        return account.id == req.params.id
     })[0];
-    if (article) return res.json(article);
+    if (account) return res.json(account);
 
     res.status(404).json({error: "not found"});
 });
 
-router.post('/article', function (req, res, next) {
+router.post('/account', function (req, res, next) {
     var body = req.body;
-    var article = {
+    var account = {
         text: body.text,
-        id: mocks.articles.length + 1,
+        id: mocks.accounts.length + 1,
         user: body.user,
         timeStamp: new Date()
     };
-    mocks.articles.push(article);
-    res.json(article)
+    mocks.accounts.push(account);
+    res.json(account)
 });
 
 router.get('/comment', function (req, res, next) {
-    var aid = req.query.article;
+    var aid = req.query.account;
     if (aid) return res.json(mocks.comments.filter(function (comment) {
-        return comment.article == aid
+        return comment.account == aid
     }))
 
     var limit = Number(req.query.limit) || mocks.comments.length,
@@ -55,7 +55,7 @@ router.post('/comment', function (req, res, next) {
         text : req.body.text,
         timeStamp: new Date(),
         user: req.body.user,
-        article : req.body.article
+        account : req.body.account
     };
     mocks.comments.push(comment);
     res.json(comment)
@@ -67,10 +67,10 @@ router.post('/report', function (req, res) {
 
 module.exports = router;
 
-function withComments(articles) {
-    return articles.map(function (q) {
+function withComments(accounts) {
+    return accounts.map(function (q) {
         q.comments = mocks.comments.filter(function (comment) {
-            return comment.article == q.id
+            return comment.account == q.id
         }).map(function (comment) {
             return comment.id
         });

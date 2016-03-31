@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import Comment from './Comment'
 import toggleOpen from './../HOC/toggleOpen'
-import { addComment, loadCommentsForArticle } from './../actions/comment'
+import { addComment, loadCommentsForAccount } from './../actions/comment'
 
 class CommentList extends Component {
     static propTypes = {
-        article: PropTypes.object,
+        account: PropTypes.object,
 
         isOpen: PropTypes.bool,
         toggleOpen: PropTypes.func
@@ -17,8 +17,8 @@ class CommentList extends Component {
 
     componentWillReceiveProps(newProps) {
         if (!newProps.isOpen || this.props.isOpen || this.checkComments(newProps)) return
-        loadCommentsForArticle({
-            articleId: newProps.article.id
+        loadCommentsForAccount({
+            accountId: newProps.account.id
         })
     }
 
@@ -35,10 +35,10 @@ class CommentList extends Component {
     }
 
     getBody() {
-        const { article, isOpen } = this.props
+        const { account, isOpen } = this.props
         if (!isOpen) return null
         if (!this.checkComments()) return <h3>loading comments...</h3>
-        const commentList = article.getRelation('comments').map(comment => <li key={comment.id}><Comment comment = {comment}/></li>)
+        const commentList = account.getRelation('comments').map(comment => <li key={comment.id}><Comment comment = {comment}/></li>)
         return (
             <div>
                 <ul>{isOpen ? commentList : null}</ul>
@@ -56,7 +56,7 @@ class CommentList extends Component {
 
     submitComment = (ev) => {
         ev.preventDefault()
-        addComment(this.state.comment, this.props.article.id)
+        addComment(this.state.comment, this.props.account.id)
         this.setState({
             comment: ''
         })
@@ -71,7 +71,7 @@ class CommentList extends Component {
 
     checkComments(props) {
         props = props || this.props
-        return !(props.article.getRelation('comments').includes(undefined))
+        return !(props.account.getRelation('comments').includes(undefined))
     }
 }
 

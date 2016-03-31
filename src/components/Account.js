@@ -1,20 +1,20 @@
 import React, { Component, PropTypes } from 'react'
 import CommentList from './CommentList'
 import CSSTransition from 'react-addons-css-transition-group'
-import { deleteArticle, loadArticleById } from './../actions/articles'
+import { deleteAccount, loadAccountById } from './../actions/accounts'
 require('./../style.css')
 
-class Article extends Component {
+class Account extends Component {
     static propTypes = {
-        article: PropTypes.object,
+        account: PropTypes.object,
 
         isOpen: PropTypes.bool,
         toggleOpen: PropTypes.func
     };
 
     componentWillReceiveProps(newProps) {
-        const { id } = newProps.article
-        if (newProps.isOpen && !this.props.isOpen && !newProps.article.text) loadArticleById({ id })
+        const { id } = newProps.account
+        if (newProps.isOpen && !this.props.isOpen && !newProps.account.text) loadAccountById({ id })
     }
 
     render() {
@@ -32,7 +32,7 @@ class Article extends Component {
     }
 
     getTitle() {
-        const { onClick, selected, article: { title } } = this.props
+        const { onClick, selected, account: { title } } = this.props
         const selectedStyle = selected ? {color: 'red'} : null;
         return  (
             <h3 style = {selectedStyle} onClick={onClick}>
@@ -43,21 +43,21 @@ class Article extends Component {
 
     getBody() {
         if (!this.props.isOpen) return null
-        const {article} = this.props
-        if (article.loading) return <div key="article!"><h2>Loading...</h2></div>
+        const {account} = this.props
+        if (account.loading) return <div key="account!"><h2>Loading...</h2></div>
         return (
-            <div key="article">
-                <a href="#" onClick = {this.handleDeleteArticle}>delete this article</a>
-                <p>{article.text}</p>
-                <CommentList article = {article}/>
+            <div key="account">
+                <a href="#" onClick = {this.handleDeleteAccount}>delete this account</a>
+                <p>{account.text}</p>
+                <CommentList account = {account}/>
             </div>
         )
     }
 
-    handleDeleteArticle = (ev) => {
+    handleDeleteAccount = (ev) => {
         ev.preventDefault()
-        deleteArticle(this.props.article.id)
+        deleteAccount(this.props.account.id)
     };
 }
 
-export default Article
+export default Account

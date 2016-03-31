@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react'
-import Article from './Article'
+import Account from './Account'
 import CommentList from './CommentList'
 import Select from 'react-select'
 require('react-select/dist/react-select.css')
 
-class ArticleList extends Component {
+class AccountList extends Component {
     constructor() {
         super()
         this.state = {
@@ -14,13 +14,13 @@ class ArticleList extends Component {
     }
     render() {
         const { selected } = this.state
-        const articles = this.props.articles
+        const accounts = this.props.accounts
             .filter(({ id }) => selected.includes(id))
-            .map((article) =>
-                <li key={article.id}>
-                    <Article article={article}
-                             isOpen = {article.id === this.state.open}
-                             onClick = {this.open.bind(this, article.id)}
+            .map((account) =>
+                <li key={account.id}>
+                    <Account account={account}
+                             isOpen = {account.id === this.state.open}
+                             onClick = {this.open.bind(this, account.id)}
                              />
                 </li>
             )
@@ -28,14 +28,14 @@ class ArticleList extends Component {
             <div>
                 {this.getFilter()}
                 <ul>
-                    {articles}
+                    {accounts}
                 </ul>
             </div>
         )
     }
 
     getFilter() {
-        const options = this.props.articles.map(({ title, id }) => {
+        const options = this.props.accounts.map(({ title, id }) => {
             return {
                 label: title,
                 value: id.toString()
@@ -58,4 +58,4 @@ class ArticleList extends Component {
     }
 }
 
-export default ArticleList
+export default AccountList
