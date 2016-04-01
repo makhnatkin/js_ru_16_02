@@ -1,13 +1,13 @@
 import AppDispatcher from '../dispatcher'
-import { DELETE_ACCOUNT, LOAD_ALL_ACCOUNTS, LOAD_ACCOUNT_BY_ID, LOAD_MATRIX } from './constants'
+import { SET_SELECTED_ACCOUNT, LOAD_ALL_ACCOUNTS, LOAD_ACCOUNT_BY_ID, LOAD_MATRIX } from './constants'
 import { loadAllAccounts as loadAll } from './api/account'
 import { loadMatrix as loadM } from './api/matrix'
 import { asyncAC } from './api/utils'
 
-export function deleteAccount(id) {
+export function setSelectedAccount(selected, id) {
     AppDispatcher.dispatch({
-        type: DELETE_ACCOUNT,
-        data: { id }
+        type: SET_SELECTED_ACCOUNT,
+        data: { selected, id }
     })
 }
 

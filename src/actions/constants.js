@@ -1,5 +1,5 @@
 // accounts
-export const DELETE_ACCOUNT = 'DELETE_ACCOUNT'
+export const SET_SELECTED_ACCOUNT = 'SET_SELECTED_ACCOUNT'
 export const LOAD_ALL_ACCOUNTS = 'LOAD_ALL_ACCOUNTS'
 
 // matrix

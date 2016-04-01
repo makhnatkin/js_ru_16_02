@@ -20,6 +20,6 @@ export function asyncAC(type, apiCall) {
                     error,
                     data
                 }))
-        }, 3000)
+        }, 300)
     }
 }
