@@ -7,12 +7,12 @@ class PageHRTransferBOA extends Component {
     
     render() {
         const {fields: {acc1, acc2, amount}} = this.props;
+                // <Select value={amount.selected} options={amount.list} />
 
         return (
             <div>
-                <Account title="acc1:" selected={acc1.selected} list={acc1.list} />
-                <Account title="acc2:" selected={acc2.selected} list={acc2.list} />
-                <Select value={amount.selected} options={amount.list} />
+                <Account title="acc1:" selected={acc1.selected} list={acc1.list} id={acc1.id} />
+                <Account title="acc2:" selected={acc2.selected} list={acc2.list} id={acc2.id} />
                 <button onClick={this.handleClick}>next</button>
             </div>
         )

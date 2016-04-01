@@ -1,13 +1,20 @@
 import AppDispatcher from '../dispatcher'
-import { SET_SELECTED_ACCOUNT, LOAD_ALL_ACCOUNTS, LOAD_ACCOUNT_BY_ID, LOAD_MATRIX } from './constants'
+import { ADD_ACCOUNT, SET_SELECTED_ACCOUNT, LOAD_ALL_ACCOUNTS, LOAD_ACCOUNT_BY_ID, LOAD_MATRIX } from './constants'
 import { loadAllAccounts as loadAll } from './api/account'
 import { loadMatrix as loadM } from './api/matrix'
 import { asyncAC } from './api/utils'
 
-export function setSelectedAccount(selected, id) {
+export function addAccount(id, masterId) {
+    AppDispatcher.dispatch({
+        type: ADD_ACCOUNT,
+        data: { id, masterId }
+    })
+}
+
+export function setSelectedAccount(id, selected) {
     AppDispatcher.dispatch({
         type: SET_SELECTED_ACCOUNT,
-        data: { selected, id }
+        data: { id, selected }
     })
 }
 

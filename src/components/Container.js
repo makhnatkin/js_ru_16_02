@@ -1,15 +1,24 @@
 import React, { Component, PropTypes } from 'react'
 import { accountsStore } from '../stores'
-import { loadAllAccounts } from './../actions/accounts'
+import { addAccount, loadAllAccounts, loadMatrix } from './../actions/accounts'
 
 import PageHRTransferBOA from './PageHRTransferBOA'
 
 
 class Container extends Component {
-    state = {
-        accounts: accountsStore.getOrLoadAll(),
-        loading: accountsStore.loading,
-        step: 1
+    constructor() {
+        super();
+
+        // actions
+        loadMatrix();
+        loadAllAccounts();
+        addAccount('acc1');
+        addAccount('acc2', 'acc1');
+
+        this.state = {
+            loading: accountsStore.loading,
+            step: 1
+        }
     }
 
     componentDidMount() {
@@ -24,6 +33,10 @@ class Container extends Component {
         return <PageHRTransferBOA fields={this.state.fields} />
     }    
 
+    renderStep2() {
+        return <div>test</div>
+    }    
+
     render() {
         const {accounts, loading, step} = this.state
         if (loading) return <h3>Loading...</h3>
@@ -32,24 +45,25 @@ class Container extends Component {
                 {step === 1 ? this.renderStep1() : null}
                 {step === 2 ? this.renderStep2() : null}
             </div>
-
         )
     }
 
-    getFields() {
-        const acc1 = accountsStore.getAccountsList();
-        const acc2 = accountsStore.getAccountsList(undefined, acc1.selected);
-        const amount = {
-            selected: 0,
-            list: [{value: 0, label: acc1.currency}, {value: 1, label: acc2.currency}]
-        };
+    // getFields() {
+    //     const acc1 = accountsStore.getAccountsList();
+    //     const acc2 = accountsStore.getAccountsList(undefined, acc1.selected);
+    //     const amount = {
+    //         selected: 0,
+    //         list: [{value: 0, label: acc1.currency}, {value: 1, label: acc2.currency}]
+    //     };
 
-        return {acc1, acc2, amount}        
-    }
+    //     return {acc1, acc2, amount}        
+    // }
 
     change = () => {
-
-        const fields = this.getFields();
+        const fields = {
+            acc1: accountsStore.getById('acc1'),
+            acc2: accountsStore.getById('acc2')
+        };
 
         this.setState({
             loading: accountsStore.loading,

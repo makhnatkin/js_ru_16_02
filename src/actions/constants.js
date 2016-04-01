@@ -1,4 +1,5 @@
 // accounts
+export const ADD_ACCOUNT = 'ADD_ACCOUNT'
 export const SET_SELECTED_ACCOUNT = 'SET_SELECTED_ACCOUNT'
 export const LOAD_ALL_ACCOUNTS = 'LOAD_ALL_ACCOUNTS'
 

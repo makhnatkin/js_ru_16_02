@@ -7,14 +7,14 @@ class Account extends Component {
     static propTypes = {};
 
     render() {
-        const {list, selected, title} = this.props;
+        const {id, list, selected, title} = this.props;
         return (
             <div>
                 <div>{title}</div>
                 <Select
                     value={selected}
                     options={list}
-                    onChange={(id) => setSelectedAccount(id)}
+                    onChange={(selected) => setSelectedAccount(this.props.id, selected)}
                 />
             </div>
         )
